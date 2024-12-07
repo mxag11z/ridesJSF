@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Register</title>
+	<style type="text/css">
+.register-container {
+	max-width: 500px;
+	margin: 50px auto;
+	padding: 10px;
+	text-align: center;
+}
+
+.title {
+	color: #333;
+	font-size: 2.5em;
+	margin-bottom: 30px;
+}
+
+.form-container {
+	background-color: #f8f9fa;
+	padding: 25px;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.input-field {
+	margin: 10px 0;
+	width: 100%;
+}
+</style>
+</h:head>
+
+<h:body>
+	<div class="register-container">
+		<h1 class="title">Register</h1>
+
+		<div class="form-container">
+			<h:form autocomplete = "off">
+				<div class="input-field">
+					<p:inputText id="name" value="#{driverBean.name}"
+						placeholder="Name" required="true"
+						requiredMessage="Por favor, ingresa tu nombre"
+						validatorMessage = "Solo"/>
+						
+					<p:message for="name" />
+				</div>
+
+				<div class="input-field">
+					<p:inputText id="email" value="#{driverBean.email}"
+						placeholder="Email" required="true"
+						requiredMessage="Por favor, ingresa tu email"
+						validatorMessage="Formato de email invalido">
+						<f:validateRegex
+							pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+							<p:ajax update="emailMessage" event="keyup" />
+					</p:inputText>
+					<p:message for="email" id = "emailMessage"/>
+				</div>
+
+				<div class="input-field">
+					<p:password id="password" value="#{driverBean.password}"
+						placeholder="Contraseña" required="true"
+						requiredMessage="Por favor, ingresa tu contraseña"
+						toggleMask="true" redisplay="true" >
+						<p:ajax update="passwordMessage" event="keyup" />
+						</p:password>
+					<p:message for="password" id = "passwordMessage" />
+				</div>
+
+				<p:commandButton value="Registrate" action="#{driverBean.register}"
+					style="width: 100%; margin-top: 20px;" />
+
+				<p:messages showDetail="true" closable="true" autoUpdate="true" />
+			</h:form>
+
+			<h:form>
+				<p:link outcome="index" styleClass="index-link" value="Ir al inicio" />
+			</h:form>
+		</div>
+	</div>
+</h:body>
+</html>

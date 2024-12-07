@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Consultar Viajes</title>
+</h:head>
+<h:body>
+	<h1>Consultar Viajes</h1>
+
+	<!-- Filtro de búsqueda de viajes -->
+	<h:form id="queryForm">
+		<p:panel header="Buscar Viajes">
+			<div class="p-field">
+				<p:outputLabel for="origin" value="Ciudad de Origen:" />
+				<p:selectOneMenu id="origin" value="#{queryRideBean.selectedOrigin}"
+					required="true">
+					<p:ajax listener="#{queryRideBean.onOriginSelect}"
+						update="destination" />
+					<f:selectItem itemLabel="Selecciona origen" itemValue="" />
+					<f:selectItems value="#{queryRideBean.originCities}" />
+				</p:selectOneMenu>
+			</div>
+
+			<div class="p-field">
+				<p:outputLabel for="destination" value="Ciudad de Destino:" />
+				<p:selectOneMenu id="destination"
+					value="#{queryRideBean.selectedDestination}" required="true">
+					<f:selectItem itemLabel="Selecciona destino" itemValue="" />
+					<f:selectItems value="#{queryRideBean.destinationCities}" />
+				</p:selectOneMenu>
+			</div>
+
+			<div class="p-field">
+				<p:outputLabel for="date" value="Fecha:" />
+				<p:calendar id="date" value="#{queryRideBean.selectedDate}"
+					pattern="dd/MM/yyyy" navigator="true">
+					<p:ajax event="dateSelect" listener="#{queryRideBean.onDateSelect}"
+						update="ridesTable" />
+				</p:calendar>
+			</div>
+
+			<p:dataTable id="ridesTable" value="#{queryRideBean.foundRides}"
+				var="ride" emptyMessage="No hay viajes disponibles">
+				<p:column headerText="Conductor">
+					<h:outputText value="#{ride.driver.name}" />
+				</p:column>
+				<p:column headerText="Plazas">
+					<h:outputText value="#{ride.nPlaces}" />
+				</p:column>
+				<p:column headerText="Precio">
+					<h:outputText value="#{ride.price}">
+						<f:convertNumber type="currency" currencySymbol="€" />
+					</h:outputText>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>
