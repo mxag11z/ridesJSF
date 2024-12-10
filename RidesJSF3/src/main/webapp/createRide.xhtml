@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Crear Nuevo Viaje</title>
+	<style type="text/css">
+.ui-widget {
+	font-size: 14px;
+}
+
+.form-container {
+	max-width: 600px;
+	margin: 20px auto;
+	padding: 20px;
+	background-color: #f8f9fa;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ui-panel {
+	margin-bottom: 20px;
+}
+
+.ui-inputfield {
+	width: 100%;
+	margin: 5px 0;
+	padding: 8px;
+	border: 1px solid #ced4da;
+	border-radius: 4px;
+}
+
+.ui-button {
+	background-color: #007bff;
+	border-color: #007bff;
+	color: white;
+	padding: 8px 16px;
+	margin-top: 10px;
+	border-radius: 4px;
+	transition: background-color 0.2s;
+}
+
+.ui-button:hover {
+	background-color: #0056b3;
+	border-color: #0056b3;
+}
+
+.ui-message {
+	margin: 5px 0;
+}
+
+.required-field {
+	color: red;
+	margin-left: 4px;
+}
+</style>
+</h:head>
+
+<h:body>
+	<div class="form-container">
+		<h:form id="createRideForm" autocomplete = "off">
+			<p:panel header="Crear Nuevo Viaje" >
+				<p:messages id="messages" showDetail="true" closable="true" autoUpdate ="true">
+				</p:messages>
+
+				<div class="ui-fluid">
+					<div class="p-field">
+						<p:outputLabel for="origin" value="Ciudad de Origen:" />
+						<p:inputText id="origin" value="#{createRideBean.origin}"
+							required="true"
+							requiredMessage="La ciudad de origen es obligatoria">
+							<p:ajax update="originMessage" event="keyup" />
+						</p:inputText>
+						<p:message for="origin" id="originMessage"/>
+					</div>
+
+					<div class="p-field">
+						<p:outputLabel for="destination" value="Ciudad de Destino:" />
+						<p:inputText id="destination"
+							value="#{createRideBean.destination}" required="true"
+							requiredMessage="La ciudad de destino es obligatoria">
+							<p:ajax update="destinationMessage" event="keyup" />
+						</p:inputText>
+						<p:message for="destination" id="destinationMessage" />
+						
+					</div>
+
+					<div class="p-field">
+						<p:outputLabel value="Fecha del Viaje:" />
+						<p:calendar id="date" value="#{createRideBean.date}"
+							required="true" requiredMessage="La fecha es obligatoria"
+							pattern="dd/MM/yyyy" mode="inline" navigator="true">
+							<p:ajax event="dateSelect"
+								listener="#{createRideBean.onDateSelect}"
+								update="dateMessage messages" />
+						</p:calendar>
+						<p:message for="date" id="dateMessage" />
+					</div>
+
+					<div class="p-field">
+						<p:outputLabel for="places" value="Número de Plazas:" />
+						<p:inputNumber id="places" value="#{createRideBean.nPlaces}"
+							required="true"
+							requiredMessage="El número de plazas es obligatorio" 
+							decimalPlaces="0">
+							<p:ajax update="placesMessage messages" event="keyup" />
+						</p:inputNumber>
+						<p:message for="places" id="placesMessage" />
+					</div>
+
+					<div class="p-field">
+						<p:outputLabel for="price" value="Precio:" />
+						<p:inputNumber id="price" value="#{createRideBean.price}"
+							required="true" requiredMessage="El precio es obligatorio"
+							minValue="0" symbol="€" symbolPosition="s" decimalPlaces="2">
+							<p:ajax update="priceMessage messages" event="keyup" />
+						</p:inputNumber>
+						<p:message for="price" id="priceMessage" />
+					</div>
+
+					<div class="p-field">
+						<p:commandButton value="Crear Viaje"
+							action="#{createRideBean.createRide}" update="@form"
+							icon="pi pi-check" styleClass="ui-button-primary" />
+					</div>
+				</div>
+			</p:panel>
+		</h:form>
+	</div>
+</h:body>
+</html>

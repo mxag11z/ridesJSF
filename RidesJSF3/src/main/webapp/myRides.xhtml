@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Rides JSF</title>
+    <style type="text/css">
+        .login-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .title {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-field {
+            margin: 10px 0;
+            width: 100%;
+        }
+
+        .button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .table-container {
+            margin-top: 20px;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <div class="login-container">
+        <h1 class="title">Consultar Viajes</h1>
+
+        <!-- Form container -->
+        <div class="form-container">
+            <h:form id="queryForm">
+                <p:panel header="Buscar Viajes">
+                    <p:outputLabel for="origin" value="Origen:" />
+                    <p:selectOneMenu id="origin" value="#{queryRideBean.selectedOrigin}" 
+                                     required="true" 
+                                     requiredMessage="Por favor seleccione un origen."
+                                     onchange="submit()">
+                        <f:selectItem itemLabel="Seleccione un origen" itemValue="" />
+                        <f:selectItems value="#{queryRideBean.originCities}" />
+                        <p:ajax listener="#{queryRideBean.onOriginSelect}" update="destination" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="destination" value="Destino:" />
+                    <p:selectOneMenu id="destination" value="#{queryRideBean.selectedDestination}" 
+                                     required="true" 
+                                     requiredMessage="Por favor seleccione un destino.">
+                        <f:selectItem itemLabel="Seleccione un destino" itemValue="" />
+                        <f:selectItems value="#{queryRideBean.destinationCities}" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="date" value="Fecha:" />
+                    <p:calendar id="date" value="#{queryRideBean.selectedDate}" 
+                                showButtonPanel="true" 
+                                pattern="dd/MM/yyyy">
+                        <p:ajax listener="#{queryRideBean.onDateSelect}" update="ridesTable" />
+                    </p:calendar>
+					<p>
+                    	<p:commandButton value="Buscar" action="#{queryRideBean.searchRides}" update="ridesTable" styleClass="button" />
+                    </p>
+                </p:panel>
+
+                <div class="table-container">
+                    <p:panel header="Rides Disponibles">
+                        <p:dataTable id="ridesTable" value="#{queryRideBean.foundRides}" 
+                                     var="ride" emptyMessage="No hay viajes disponibles">
+                            <p:column headerText="Origen">
+                                <h:outputText value="#{ride.origin}" />
+                            </p:column>
+                            <p:column headerText="Destino">
+                                <h:outputText value="#{ride.destination}" />
+                            </p:column>
+                            <p:column headerText="Fecha">
+                                <h:outputText value="#{ride.date}" />
+                            </p:column>
+                            <p:column headerText="Precio">
+                                <h:outputText value="#{ride.price}">
+                                    <f:convertNumber type="currency" currencySymbol="€" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Places">
+                            	<h:outputText value="#{ride.places}" />
+                            </p:column>
+                            <p:column headerText="Driver">
+                                <h:outputText value="#{ride.driver.name}" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </div>
+
+`				<p>
+	                <div class="back-button">
+	                  <h:button value="Volver" outcome="menuAfterLogin" styleClass="button" />
+	                </div>
+                </p>
+            </h:form>
+        </div>
+    </div>
+</h:body>
+</html>
