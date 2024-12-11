@@ -34,6 +34,20 @@ public class QueryRideBean implements Serializable {
     @PostConstruct
     public void init() {
         originCities = facade.getDepartCities();
+        
+    }
+    
+    public List<Ride> getDriverRide() {
+        return facade.findRidesByDriverEmail(driver.getEmail());
+    }
+
+
+    public Driver getDriverBean() {
+        return driver;
+    }
+    
+    public void setDriverBean(Driver driver) {
+        this.driver = driver;
     }
     
     public void onOriginSelect() {
@@ -45,14 +59,6 @@ public class QueryRideBean implements Serializable {
     }
     
 
-    public  List<Ride> getDriverRide() {
-        String email = getLoggedInUserEmail();
-        return facade.findRidesByDriverEmail(email);
-    }
-    
-    private String getLoggedInUserEmail() {
-    	return  (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("userEmail");
-	}
 
 	public void onDateSelect() {
         datesWithRides = facade.getThisMonthDatesWithRides(selectedOrigin, selectedDestination, selectedDate);
@@ -65,6 +71,8 @@ public class QueryRideBean implements Serializable {
 	public void setSelectedOrigin(String selectedOrigin) {
 		this.selectedOrigin = selectedOrigin;
 	}
+
+	
 
 	public String getSelectedDestination() {
 		return selectedDestination;

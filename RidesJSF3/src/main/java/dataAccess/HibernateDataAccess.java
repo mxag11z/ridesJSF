@@ -101,30 +101,30 @@ public class HibernateDataAccess {
         }
     }
     
- 
-    public List<Ride> findRidesByDriverEmail(String email) {
-        EntityManager em = JPAutil.getEntityManager();
-        try {
-            return em.createQuery("SELECT r FROM Ride r WHERE r.driverEmail = :email", Ride.class)
-                     .setParameter("email", email)
-                     .getResultList();
-        } finally {
-            em.close();
-        }
-    }
+
 
 
     public List<Ride> getDriverRides(String driverEmail) {
         EntityManager em = JPAutil.getEntityManager();
         try {
             Query query = em.createQuery(
-                "SELECT r FROM Ride r WHERE r.driverEmail = :driverEmail");
+            		"SELECT r FROM Ride r WHERE r.driver.email = :email");
+          //      "SELECT r FROM Ride r WHERE r.driverEmail = :driverEmail");
             query.setParameter("driverEmail", driverEmail);
             return query.getResultList();
         } finally {
             em.close();
         }
     }
+    
+    public List<Ride> findRidesByDriverEmail(String email) {
+    	 EntityManager em = JPAutil.getEntityManager();
+        String query = "SELECT r FROM Ride r WHERE r.driver.email = :email";
+        return em.createQuery(query, Ride.class)
+                            .setParameter("email", email)
+                            .getResultList();
+    }
+
     
     public List<String> getDepartCities() {
         EntityManager em = JPAutil.getEntityManager();

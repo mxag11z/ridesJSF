@@ -32,6 +32,7 @@ public class BLFacadeImplementation implements Serializable{
         return dataAccess.getDepartCities();
     }
     
+    
     public List<String> getDestinationCities(String from) {
         return dataAccess.getDestinationCities(from);
     }

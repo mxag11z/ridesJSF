@@ -10,6 +10,10 @@ import java.util.List;
 @Table(name = "drivers")
 public class Driver {
 	
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id; 
 	
 	@Id
     @Column(name = "email")
@@ -21,7 +25,7 @@ public class Driver {
     @Column(nullable = false)
     private String name;
     
-    @OneToMany(mappedBy = "driver")
+    @OneToMany(mappedBy = "driver", fetch = FetchType.EAGER)
     private List<Ride> rides;
 	    
 	   

@@ -47,7 +47,8 @@
         <h:form>
             <p:commandButton value="Cerrar Sesión" 
                              action="#{driverBean.logout}"
-                             styleClass="logout-button" />
+                             styleClass="logout-button"
+                             onclick="if (!confirm('¿Estás seguro?')) return false" />
         </h:form>
         <h1 class="title">Bienvenido <h:outputText value="#{driverBean.name}" /></h1>
         <h1 class="title">Gestión de Viajes</h1>
@@ -56,11 +57,15 @@
             <p:button value="Crear viaje"
                       outcome="createRide"
                       styleClass="button" />
-                      
+                
+                
+            
             <p:button value="Ver mis viajes creados"
                       outcome="myRides"
                       styleClass="button" />
                       
+            
+            
             <p:button value="Ver todos los viajes"
                       outcome="queryRides"
                       styleClass="button" />

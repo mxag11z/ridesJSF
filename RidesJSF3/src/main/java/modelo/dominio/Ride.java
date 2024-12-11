@@ -26,9 +26,10 @@ public class Ride {
     @Column(name = "price", nullable = false)
     private float price;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "driver_email", referencedColumnName = "email")
-    private Driver driver; 
+    private Driver driver;
+
 
     // Getters y setters
     public Long getId() {
