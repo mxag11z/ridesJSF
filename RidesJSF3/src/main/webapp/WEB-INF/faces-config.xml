@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="https://jakarta.ee/xml/ns/jakartaee" 
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+              xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+                                  https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd" 
+              version="3.0">
+
+    <!-- Lifecycle phase listener -->
+    <lifecycle>
+        <phase-listener>filtro.LoginPhaseListener</phase-listener>
+    </lifecycle>
+
+    <!-- Navigation rule for redirecting after login -->
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>menuAfterLogin</from-outcome>
+            <to-view-id>/menuAfterLogin.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <!-- Additional navigation rules for other views -->
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>createRide</from-outcome>
+            <to-view-id>/createRide.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>queryRides</from-outcome>
+            <to-view-id>/queryRides.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <!-- Catch-all navigation rule -->
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>menuAfterLogin</from-outcome>
+            <to-view-id>/menuAfterLogin.xhtml</to-view-id>
+            <redirect /> <!-- Optional: Adds a browser redirect -->
+        </navigation-case>
+    </navigation-rule>
+
+</faces-config>
